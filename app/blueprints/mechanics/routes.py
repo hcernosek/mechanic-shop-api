@@ -5,10 +5,12 @@ from marshmallow import ValidationError
 from app.blueprints.mechanics.schemas import mechanic_schema, mechanics_schema
 from app.models import Mechanic, db
 from app.blueprints.mechanics import mechanics_bp
+from app.extensions import limiter
 
 # create a new mechanic
 
 @mechanics_bp.route("/", methods=['POST'])
+@limiter.limit("3 per hour")  #A client can only attempt to make 3 users per hour
 def create_mechanic():
     try:
         mechanic_data = mechanic_schema.load(request.json)
