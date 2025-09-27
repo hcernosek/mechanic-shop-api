@@ -3,11 +3,11 @@ from sqlalchemy import select
 from marshmallow import ValidationError
 from app.blueprints.service_tickets.schemas import service_ticket_schema, service_tickets_schema
 from app.models import ServiceTicket, db
-from app.blueprints.service_tickets import service_tickets_db
+from app.blueprints.service_tickets import service_tickets_bp
  
 
 # create a new service ticket
-@service_tickets_db.route("/", methods=['POST'])
+@service_tickets_bp.route("/", methods=['POST'])
 def create_service_ticket():
     try:
         ticket_data = service_ticket_schema.load(request.json)
@@ -21,7 +21,7 @@ def create_service_ticket():
 
 # Get all service ticket
 
-@service_tickets_db.route("/", methods=['GET'])
+@service_tickets_bp.route("/", methods=['GET'])
 def get_service_tickets():
     query = select(ServiceTicket)
     service_tickets = db.session.execute(query).scalars().all()
@@ -30,17 +30,17 @@ def get_service_tickets():
 
 # Get a specific service_ticket (by ID)
 
-@service_tickets_db.route("/<int:service_ticket_id>", methods=['GET'])
+@service_tickets_bp.route("/<int:service_ticket_id>", methods=['GET'])
 def get_service_ticket(service_ticket_id):
     service_ticket = db.session.get(ServiceTicket, service_ticket_id)
 
     if service_ticket:
         return service_ticket_schema.jsonify(service_ticket), 200
-    return jsonify({"error": "sService Ticket not found."}), 404
+    return jsonify({"error": "Service Ticket not found."}), 404
 
-# Update a specific service_ticket (by ID)
+# Update a specific service_ticket (by ID) 
 
-@service_tickets_db.route("/<int:service_ticket_id>", methods=['PUT'])
+@service_tickets_bp.route("/<int:service_ticket_id>", methods=['PUT'])
 def update_service_ticket(service_ticket_id):
     service_ticket = db.session.get(ServiceTicket, service_ticket_id)
 
@@ -60,13 +60,13 @@ def update_service_ticket(service_ticket_id):
 
 # Delete a specific service_ticket (by ID)
 
-@service_tickets_db.route("/<int:service_ticket_id>", methods=['DELETE'])
+@service_tickets_bp.route("/<int:service_ticket_id>", methods=['DELETE'])
 def delete_service_ticket(service_ticket_id):
     service_ticket = db.session.get(ServiceTicket, service_ticket_id)
 
     if not service_ticket:
         return jsonify({"error": "Service Ticket not found."}), 404
     
-    db.session.delete(ServiceTicket)
+    db.session.delete(service_ticket)
     db.session.commit()
     return jsonify({"message": f'Service Ticket id: {service_ticket_id}, successfully deleted.'}), 200
