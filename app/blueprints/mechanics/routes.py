@@ -10,7 +10,7 @@ from app.extensions import limiter
 # create a new mechanic
 
 @mechanics_bp.route("/", methods=['POST'])
-@limiter.limit("3 per hour")  #A client can only attempt to make 3 users per hour
+@limiter.limit("5 per hour")  #A client can only attempt to make 3 users per hour
 def create_mechanic():
     try:
         mechanic_data = mechanic_schema.load(request.json)
