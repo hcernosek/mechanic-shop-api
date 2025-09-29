@@ -7,4 +7,5 @@ class CustomerSchema(ma.SQLAlchemyAutoSchema):
         model = Customer #using the SQLAlchemy model to create fields used in serialization, deserialization, and validation
     
 customer_schema = CustomerSchema()
-customers_schema = CustomerSchema(many=True) #variant that allows for the serialization of many Customers,
+customers_schema = CustomerSchema(many=True) #variant that allows for the serialization of many Customers
+login_schema = CustomerSchema(only=["email", "password"]) #variant that only includes email and password fields

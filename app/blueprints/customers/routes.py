@@ -1,9 +1,40 @@
 from flask import request, jsonify
 from sqlalchemy import select
 from marshmallow import ValidationError
-from app.blueprints.customers.schemas import customer_schema, customers_schema
+from app.blueprints.customers.schemas import customer_schema, customers_schema, login_schema
 from app.models import Customer, db
 from app.blueprints.customers import customers_bp
+from app.utils.util import encode_token, token_required
+
+# Customer Login
+
+@customers_bp.route("/login", methods=['POST'])
+def login():
+
+    try:     
+        credentials = login_schema.load(request.json)
+    except ValidationError as e:
+        return jsonify(e.messages), 400
+    
+    email = credentials["email"]
+    password = credentials["password"]
+
+    query = select(Customer).where(Customer.email == email)
+
+    customer = db.session.execute(query).scalars().first()
+
+    if customer and customer.password == password:
+        token = encode_token(customer.id)
+
+        response = {
+            "status": "success",
+            "message": "Login successful.",
+            "token": token
+        }
+        return jsonify(response), 200
+    
+    else:
+        return jsonify({"message": "Invalid email or password."}), 401
 
 # Create a new customer
 
@@ -65,7 +96,8 @@ def update_customer(customer_id):
 
 # Delete a specific customer (by ID)
 
-@customers_bp.route("/<int:customer_id>", methods=['DELETE'])
+@customers_bp.route("/", methods=['DELETE'])
+@token_required
 def delete_customer(customer_id):
     customer = db.session.get(Customer, customer_id)
 
