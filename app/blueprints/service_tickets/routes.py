@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from sqlalchemy import select
 from marshmallow import ValidationError
-from app.blueprints.service_tickets.schemas import service_ticket_schema, service_tickets_schema
+from app.blueprints.service_tickets.schemas import service_ticket_schema, service_tickets_schema, service_ticket_assign_mechanic_schema
 from app.models import ServiceTicket, Mechanic, Customer, db
 from sqlalchemy.exc import IntegrityError
 from app.blueprints.service_tickets import service_tickets_bp
@@ -75,38 +75,48 @@ def get_service_ticket(service_ticket_id):
 
 # Delete a specific service_ticket (by ID)
 
-# @service_tickets_bp.route("/<int:service_ticket_id>", methods=['DELETE'])
-# def delete_service_ticket(service_ticket_id):
-#     query = select(ServiceTicket).where(ServiceTicket.id == service_ticket_id)
-#     service_ticket = db.session.execute(query).scalar_one_or_none()
+@service_tickets_bp.route("/<int:service_ticket_id>", methods=['DELETE'])
+def delete_service_ticket(service_ticket_id):
+    query = select(ServiceTicket).where(ServiceTicket.id == service_ticket_id)
+    service_ticket = db.session.execute(query).scalar_one_or_none()
 
-#     if not service_ticket:
-#         return jsonify({"error": "Service Ticket not found."}), 404
+    if not service_ticket:
+        return jsonify({"error": "Service Ticket not found."}), 404
     
-#     db.session.delete(service_ticket)
-#     db.session.commit()
-#     return jsonify({"message": f'Service Ticket id: {service_ticket_id}, successfully deleted.'}), 200
+    db.session.delete(service_ticket)
+    db.session.commit()
+    return jsonify({"message": f'Service Ticket id: {service_ticket_id}, successfully deleted.'}), 200
 
-# # Update a specific service_ticket (by ID) 
 
-# @service_tickets_bp.route("/<int:service_ticket_id>", methods=['PUT'])
-# def update_service_ticket(service_ticket_id):
+# Update Mechanic assignments for a specific service_ticket (by ID)
+@service_tickets_bp.route("/<int:service_ticket_id>", methods=['PUT'])
+def update_mechanics_service_ticket(service_ticket_id):
     
-#     try:
+    try:
+        update_mechanics = service_ticket_assign_mechanic_schema.load(request.json)
+    except ValidationError as e:
+        return jsonify(e.messages), 400
 
-#     query = select(ServiceTicket).where(ServiceTicket.id == service_ticket_id)
-#     service_ticket = db.session.execute(query).scalar_one_or_none()
+    query = select(ServiceTicket).where(ServiceTicket.id == service_ticket_id)
+    service_ticket = db.session.execute(query).scalar_one_or_none()
 
-#     if not service_ticket:
-#         return jsonify({"error": "Service Ticket not found."}), 404
+    if not service_ticket:
+        return jsonify({"error": "Service Ticket not found."}), 404
     
-#     try:
-#         service_ticket_data = service_ticket_schema.load(request.json)
-#     except ValidationError as e:
-#         return jsonify(e.messages), 400
     
-#     for key, value in service_ticket_data.items():
-#         setattr(service_ticket, key, value)
+    for mechanic_id in update_mechanics['add_mechanics_ids']:
+        query_mechanic = select(Mechanic).where(Mechanic.id == mechanic_id)
+        mechanic = db.session.execute(query_mechanic).scalar_one_or_none()
 
-#     db.session.commit()
-#     return service_ticket_schema.jsonify(service_ticket), 200
+        if mechanic and mechanic not in service_ticket.mechanics:
+            service_ticket.mechanics.append(mechanic)
+
+    for mechanic_id in update_mechanics['remove_mechanics_ids']:
+        query_mechanic = select(Mechanic).where(Mechanic.id == mechanic_id)
+        mechanic = db.session.execute(query_mechanic).scalar_one_or_none()
+
+        if mechanic and mechanic in service_ticket.mechanics:
+            service_ticket.mechanics.remove(mechanic)
+
+    db.session.commit()
+    return service_ticket_schema.jsonify(service_ticket), 200
