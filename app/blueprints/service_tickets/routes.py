@@ -72,35 +72,41 @@ def get_service_ticket(service_ticket_id):
         return service_ticket_schema.jsonify(service_ticket), 200
     return jsonify({"error": "Service Ticket not found."}), 404
 
-# Update a specific service_ticket (by ID) 
-
-@service_tickets_bp.route("/<int:service_ticket_id>", methods=['PUT'])
-def update_service_ticket(service_ticket_id):
-    service_ticket = db.session.get(ServiceTicket, service_ticket_id)
-
-    if not service_ticket:
-        return jsonify({"error": "Service Ticket not found."}), 404
-    
-    try:
-        service_ticket_data = service_ticket_schema.load(request.json)
-    except ValidationError as e:
-        return jsonify(e.messages), 400
-    
-    for key, value in service_ticket_data.items():
-        setattr(service_ticket, key, value)
-
-    db.session.commit()
-    return service_ticket_schema.jsonify(service_ticket), 200
 
 # Delete a specific service_ticket (by ID)
 
-@service_tickets_bp.route("/<int:service_ticket_id>", methods=['DELETE'])
-def delete_service_ticket(service_ticket_id):
-    service_ticket = db.session.get(ServiceTicket, service_ticket_id)
+# @service_tickets_bp.route("/<int:service_ticket_id>", methods=['DELETE'])
+# def delete_service_ticket(service_ticket_id):
+#     query = select(ServiceTicket).where(ServiceTicket.id == service_ticket_id)
+#     service_ticket = db.session.execute(query).scalar_one_or_none()
 
-    if not service_ticket:
-        return jsonify({"error": "Service Ticket not found."}), 404
+#     if not service_ticket:
+#         return jsonify({"error": "Service Ticket not found."}), 404
     
-    db.session.delete(service_ticket)
-    db.session.commit()
-    return jsonify({"message": f'Service Ticket id: {service_ticket_id}, successfully deleted.'}), 200
+#     db.session.delete(service_ticket)
+#     db.session.commit()
+#     return jsonify({"message": f'Service Ticket id: {service_ticket_id}, successfully deleted.'}), 200
+
+# # Update a specific service_ticket (by ID) 
+
+# @service_tickets_bp.route("/<int:service_ticket_id>", methods=['PUT'])
+# def update_service_ticket(service_ticket_id):
+    
+#     try:
+
+#     query = select(ServiceTicket).where(ServiceTicket.id == service_ticket_id)
+#     service_ticket = db.session.execute(query).scalar_one_or_none()
+
+#     if not service_ticket:
+#         return jsonify({"error": "Service Ticket not found."}), 404
+    
+#     try:
+#         service_ticket_data = service_ticket_schema.load(request.json)
+#     except ValidationError as e:
+#         return jsonify(e.messages), 400
+    
+#     for key, value in service_ticket_data.items():
+#         setattr(service_ticket, key, value)
+
+#     db.session.commit()
+#     return service_ticket_schema.jsonify(service_ticket), 200
