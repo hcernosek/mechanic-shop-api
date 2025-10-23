@@ -125,7 +125,7 @@ def assign_mechanics_service_ticket(ticket_id):
 
 
 # ======================================================================
-# REMOVE MECHANICS TO A SERVICE TICKET [PUT]
+# REMOVE MECHANICS FROM A SERVICE TICKET [PUT]
 # ======================================================================
 
 @service_tickets_bp.route("/<int:ticket_id>/remove_mechanics", methods=['PUT'])

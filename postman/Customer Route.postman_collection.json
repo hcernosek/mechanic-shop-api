@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "ce051ab8-294a-49c9-ac7f-73bc6d751139",
+		"name": "Customer Route",
+		"description": "# Customer Route Info\n\n## POST\n\n## PATCH\n\n## GET\n\n## DELETE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48510031",
+		"_collection_link": "https://getpostman-arbitrary204-4933287.postman.co/workspace/MechanicAPI~bd3edc21-6fd1-40be-81e2-8532c947b6ee/collection/48510031-ce051ab8-294a-49c9-ac7f-73bc6d751139?action=share&source=collection_link&creator=48510031"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "Get All Customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_path}}/{{cst_path}}/",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{cst_path}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_path}}/{{cst_path}}/:customer",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{cst_path}}",
+								":customer"
+							],
+							"variable": [
+								{
+									"key": "customer",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "New Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"password\": \"{{$randomPassword}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"phone\": \"{{$randomPhoneNumber}}\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_path}}/{{cst_path}}/",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{cst_path}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"Andres46@yahoo.com\",\n    \"password\": \"Rc4tXsJ6rdzZFdX\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_path}}/{{cst_path}}/login",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{cst_path}}",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUT",
+			"item": [
+				{
+					"name": "Edit Customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"password\": \"{{$randomPassword}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"phone\": \"{{$randomPhoneNumber}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_path}}/{{cst_path}}/:customer",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{cst_path}}",
+								":customer"
+							],
+							"variable": [
+								{
+									"key": "customer",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DELETE",
+			"item": [
+				{
+					"name": "Delete Customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{root_path}}/{{cst_path}}/",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{cst_path}}",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

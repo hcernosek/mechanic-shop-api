@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "ff84dd5d-2b08-4457-98c9-490aaba36dbf",
+		"name": "Service Ticket Route",
+		"description": "# Service Ticket Route Info\n\n## POST\n\n## PATCH\n\n## GET\n\n## DELETE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48510031",
+		"_collection_link": "https://getpostman-arbitrary204-4933287.postman.co/workspace/MechanicAPI~bd3edc21-6fd1-40be-81e2-8532c947b6ee/collection/48510031-ff84dd5d-2b08-4457-98c9-490aaba36dbf?action=share&source=collection_link&creator=48510031"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "Get All Service Tickets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_path}}/{{tick_path}}/",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{tick_path}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Service Ticket",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root_path}}/{{tick_path}}/:service_ticket",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{tick_path}}",
+								":service_ticket"
+							],
+							"variable": [
+								{
+									"key": "service_ticket",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "New Service Ticket",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vin\": \"{{vin}}\",\n    \"service_date\": \"{{$randomDateRecent}}\",\n    \"service_desc\": \"{{desc}}\",\n    \"customer_id\": {{customer_id}},\n    \"mechanics\": {{mechanic_id}}\n}"
+						},
+						"url": {
+							"raw": "{{root_path}}/{{tick_path}}/",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{tick_path}}",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DELETE",
+			"item": [
+				{
+					"name": "Delete Service Ticket",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{root_path}}/{{tick_path}}/:service_id",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{tick_path}}",
+								":service_id"
+							],
+							"variable": [
+								{
+									"key": "service_id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUT",
+			"item": [
+				{
+					"name": "Assign Mechanics to Ticket",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"add_mechanics_ids\": [1,2,3]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_path}}/{{tick_path}}/:ticket_id/assign_mechanics",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{tick_path}}",
+								":ticket_id",
+								"assign_mechanics"
+							],
+							"variable": [
+								{
+									"key": "ticket_id",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Mechanics From Ticket",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"remove_mechanics_ids\": [1,2,3,4]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root_path}}/{{tick_path}}/:ticket_id/remove_mechanics",
+							"host": [
+								"{{root_path}}"
+							],
+							"path": [
+								"{{tick_path}}",
+								":ticket_id",
+								"remove_mechanics"
+							],
+							"variable": [
+								{
+									"key": "ticket_id",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "mechanic_id",
+			"value": ""
+		},
+		{
+			"key": "customer_id",
+			"value": ""
+		},
+		{
+			"key": "vin",
+			"value": ""
+		},
+		{
+			"key": "desc",
+			"value": ""
+		}
+	]
+}

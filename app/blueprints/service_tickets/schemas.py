@@ -44,14 +44,14 @@ class ServiceTicketAssignMechanicSchema(ma.Schema):
     add_mechanics_ids = fields.List(fields.Int(), required=True)
 
     class Meta:
-        fields = ('add_mechanics_ids')
+        fields = ('add_mechanics_ids',)
 
 
 class ServiceTicketRemoveMechanicSchema(ma.Schema):
     remove_mechanics_ids = fields.List(fields.Int(), required=True)
 
     class Meta:
-        fields = ('remove_mechanics_ids')
+        fields = ('remove_mechanics_ids',)
 
 
 service_ticket_schema = ServiceTicketSchema()
