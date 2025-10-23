@@ -6,7 +6,9 @@ from app.models import Customer, db
 from app.blueprints.customers import customers_bp
 from app.utils.util import encode_token, token_required
 
-# Customer Login
+# ======================================================================
+# CUSTOMER LOGIN [POST]
+# ======================================================================
 
 @customers_bp.route("/login", methods=['POST'])
 def login():
@@ -36,7 +38,9 @@ def login():
     else:
         return jsonify({"message": "Invalid email or password."}), 401
 
-# Create a new customer
+# ======================================================================
+# CREATE A NEW CUSTOMER [POST]
+# ======================================================================
 
 @customers_bp.route("/", methods=['POST'])
 def create_customer():
@@ -55,7 +59,10 @@ def create_customer():
     db.session.commit()
     return customer_schema.jsonify(new_customer), 201
 
-# Get all customers
+
+# ======================================================================
+# GET ALL CUSTOMERS [GET]
+# ======================================================================
 
 @customers_bp.route("/", methods=['GET'])
 def get_customers():
@@ -64,7 +71,10 @@ def get_customers():
 
     return customers_schema.jsonify(customers)
 
-# Get a specific customer (by ID)
+
+# ======================================================================
+# GET A SPECIFIC CUSTOMER [GET]
+# ======================================================================
 
 @customers_bp.route("/<int:customer_id>", methods=['GET'])
 def get_customer(customer_id):
@@ -74,7 +84,10 @@ def get_customer(customer_id):
         return customer_schema.jsonify(customer), 200
     return jsonify({"error": "Customer not found."}), 404
 
-# Update a specific customer (by ID)
+
+# ======================================================================
+# UPDATE A CUSTOMER ENTRY [PUT]
+# ======================================================================
 
 @customers_bp.route("/<int:customer_id>", methods=['PUT'])
 def update_customer(customer_id):
@@ -94,7 +107,10 @@ def update_customer(customer_id):
     db.session.commit()
     return customer_schema.jsonify(customer), 200
 
-# Delete a specific customer (by ID)
+
+# ======================================================================
+# DELETE A CUSTOMERS [DELETE]
+# ======================================================================
 
 @customers_bp.route("/", methods=['DELETE'])
 @token_required

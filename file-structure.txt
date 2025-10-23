@@ -12,10 +12,3 @@
 └── config.py
 
 
-{
-  "vin": "1HGCM82633A123456",
-  "service_date": "2025-09-25",
-  "service_desc": "Oil change and tire rotation",
-  "customer_id": 42,
-  "mechanics": [3, 7]
-}

@@ -12,7 +12,10 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 
 
-# Association Table
+# ======================================================================
+# ASSOCIATION TABLE
+# ======================================================================
+
 service_mechanic = db.Table(
     "service_mechanic",
     Base.metadata,
@@ -20,7 +23,10 @@ service_mechanic = db.Table(
     db.Column("mechanic_id", db.ForeignKey("mechanics.id"))
 )
 
-# Models
+# ======================================================================
+# MODELS
+# ======================================================================
+
 class Customer(Base):
     __tablename__ = "customers"
 

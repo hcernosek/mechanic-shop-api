@@ -7,10 +7,12 @@ from app.models import Mechanic, db
 from app.blueprints.mechanics import mechanics_bp
 from app.extensions import limiter
 
-# create a new mechanic
+# ======================================================================
+# CREATE A NEW MECHANIC [POST]
+# ======================================================================
 
 @mechanics_bp.route("/", methods=['POST'])
-@limiter.limit("5 per hour")  #A client can only attempt to make 3 users per hour
+@limiter.limit("5 per hour")  #A client can only attempt to make 5 users per hour
 def create_mechanic():
     try:
         mechanic_data = mechanic_schema.load(request.json)
@@ -27,7 +29,10 @@ def create_mechanic():
     db.session.commit()
     return mechanic_schema.jsonify(new_mechanic), 201
 
-# Get all mechanics
+
+# ======================================================================
+# GET ALL MECHANICS [GET]
+# ======================================================================
 
 @mechanics_bp.route("/", methods=['GET'])
 def get_mechanics():
@@ -36,7 +41,10 @@ def get_mechanics():
 
     return mechanics_schema.jsonify(mechanics)
 
-# Get a specific mechanic (by ID)
+
+# ======================================================================
+# GET A SPECIFIC MECHANIC [GET]
+# ======================================================================
 
 @mechanics_bp.route("/<int:mechanic_id>", methods=['GET'])
 def get_mechanic(mechanic_id):
@@ -46,7 +54,10 @@ def get_mechanic(mechanic_id):
         return mechanic_schema.jsonify(mechanic), 200
     return jsonify({"error": "Mechanic not found."}), 404
 
-# Update a specific mechanic (by ID)
+
+# ======================================================================
+# UPDATE A MECHANIC ENTRY[PUT]
+# ======================================================================
 
 @mechanics_bp.route("/<int:mechanic_id>", methods=['PUT'])
 def update_mechanic(mechanic_id):
@@ -66,7 +77,10 @@ def update_mechanic(mechanic_id):
     db.session.commit()
     return mechanic_schema.jsonify(mechanic), 200
 
-# Delete a specific mechanic (by ID)
+
+# ======================================================================
+# DELETE A MECHANIC [DELETE]
+# ======================================================================
 
 @mechanics_bp.route("/<int:mechanic_id>", methods=['DELETE'])
 def delete_mechanic(mechanic_id):
