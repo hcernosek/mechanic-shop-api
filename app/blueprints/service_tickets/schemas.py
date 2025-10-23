@@ -39,17 +39,25 @@ class ServiceTicketSchema(ma.SQLAlchemyAutoSchema):
     def get_mechanic_ids(self, obj):
         return [m.id for m in obj.mechanics] if getattr(obj, 'mechanics', None) else []
 
+
 class ServiceTicketAssignMechanicSchema(ma.Schema):
     add_mechanics_ids = fields.List(fields.Int(), required=True)
-    remove_mechanics_ids = fields.List(fields.Int(), required=True)
-    class Meta:
-        fields = ('add_mechanics_ids', 'remove_mechanics_ids')
 
+    class Meta:
+        fields = ('add_mechanics_ids')
+
+
+class ServiceTicketRemoveMechanicSchema(ma.Schema):
+    remove_mechanics_ids = fields.List(fields.Int(), required=True)
+
+    class Meta:
+        fields = ('remove_mechanics_ids')
 
 
 service_ticket_schema = ServiceTicketSchema()
 service_tickets_schema = ServiceTicketSchema(many=True) 
 service_ticket_assign_mechanic_schema = ServiceTicketAssignMechanicSchema()
+service_ticket_remove_mechanic_schema = ServiceTicketRemoveMechanicSchema()
 
 
 
