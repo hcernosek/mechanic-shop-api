@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from sqlalchemy import select
 from marshmallow import ValidationError
-from app.blueprints.service_tickets.schemas import service_ticket_schema, service_tickets_schema, service_ticket_assign_mechanic_schema, service_ticket_remove_mechanic_schema
+from app.blueprints.service_tickets.schemas import service_ticket_schema, service_tickets_schema, service_ticket_assign_mechanic_schema, service_ticket_remove_mechanic_schema, service_ticket_assign_inventory_schema
 from app.models import ServiceTicket, Mechanic, Customer, db
 from sqlalchemy.exc import IntegrityError
 from app.blueprints.service_tickets import service_tickets_bp
@@ -147,6 +147,33 @@ def remove_mechanics_service_ticket(ticket_id):
 
         if mechanic and mechanic in service_ticket.mechanics:
             service_ticket.mechanics.remove(mechanic)
+
+    db.session.commit()
+    return service_ticket_schema.jsonify(service_ticket), 200
+
+# ======================================================================
+# ASSIGN INVENTORY TO A SERVICE TICKET [PUT]
+# ======================================================================
+
+@service_tickets_bp.route("/<int:ticket_id>/assign_inventory", methods=['PUT'])
+def assign_inventory_service_ticket(ticket_id):
+    try:
+        assign_inventory = service_ticket_assign_inventory_schema.load(request.json)
+    except ValidationError as e:
+        return jsonify(e.messages), 400
+
+    query = select(ServiceTicket).where(ServiceTicket.id == ticket_id)
+    service_ticket = db.session.execute(query).scalar_one_or_none()
+
+    if not service_ticket:
+        return jsonify({"error": "Service Ticket not found."}), 404
+    
+    for inventory_items in assign_inventory['add_inventory_items']:
+        query_mechanic = select(Mechanic).where(Mechanic.id == mechanic_id)
+        mechanic = db.session.execute(query_mechanic).scalar_one_or_none()
+
+        if mechanic and mechanic not in service_ticket.mechanics:
+            service_ticket.mechanics.append(mechanic)
 
     db.session.commit()
     return service_ticket_schema.jsonify(service_ticket), 200

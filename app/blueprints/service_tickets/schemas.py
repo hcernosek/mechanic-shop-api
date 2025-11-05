@@ -53,12 +53,25 @@ class ServiceTicketRemoveMechanicSchema(ma.Schema):
     class Meta:
         fields = ('remove_mechanics_ids',)
 
+# Addition of Schema for Inventory Assignment to Service Tickets
+
+class ServiceTicketAssignInventorySchema(ma.Schema):
+    add_inventory_items = fields.Nested("InventoryQuantitySchema", many=True)
+
+    class Meta:
+        fields = ('add_inventory_items',)
+
+class InventoryQuantitySchema(ma.Schema):
+    item_id = fields.Int(required=True)
+    quantity = fields.Int(required=True)
+
+
 
 service_ticket_schema = ServiceTicketSchema()
 service_tickets_schema = ServiceTicketSchema(many=True) 
 service_ticket_assign_mechanic_schema = ServiceTicketAssignMechanicSchema()
 service_ticket_remove_mechanic_schema = ServiceTicketRemoveMechanicSchema()
-
+service_ticket_assign_inventory_schema = ServiceTicketAssignInventorySchema()
 
 
 

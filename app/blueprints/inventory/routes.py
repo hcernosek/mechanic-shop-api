@@ -22,8 +22,10 @@ def create_inventory():
         return jsonify({"error": "Name already associated with a inventory item."}), 400
     
     new_inventory = Inventory(**inventory_data)
+
     db.session.add(new_inventory)
     db.session.commit()
+    
     return inventory_schema.jsonify(new_inventory), 201
 
 
