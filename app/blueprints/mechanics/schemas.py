@@ -17,5 +17,10 @@ class MechanicSchema(ma.SQLAlchemyAutoSchema):
     phone = fields.Str(required=True)
     salary = fields.Float(required=True)
 
+
+
 mechanic_schema = MechanicSchema()
 mechanics_schema = MechanicSchema(many=True)
+top_mechanics_schema = MechanicSchema(only=("id", "name"), many=True)
+
+

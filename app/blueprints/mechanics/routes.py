@@ -2,7 +2,7 @@
 from flask import request, jsonify
 from sqlalchemy import select
 from marshmallow import ValidationError
-from app.blueprints.mechanics.schemas import mechanic_schema, mechanics_schema
+from app.blueprints.mechanics.schemas import mechanic_schema, mechanics_schema, top_mechanics_schema
 from app.models import Mechanic, db
 from app.blueprints.mechanics import mechanics_bp
 from app.extensions import limiter
@@ -93,3 +93,16 @@ def delete_mechanic(mechanic_id):
     db.session.commit()
     return jsonify({"message": f'mechanic id: {mechanic_id}, successfully deleted.'}), 200
 
+
+# ======================================================================
+# 
+# ======================================================================
+
+@mechanics_bp.route("/top_mechanics", methods=['GET'])
+def get_top_mechanics():
+    query = select(Mechanic)
+    mechanics = db.session.execute(query).scalars().all()
+
+    mechanics.sort(key=lambda mech: len(mech.service_tickets), reverse=True)
+
+    return top_mechanics_schema.jsonify(mechanics)
