@@ -7,10 +7,10 @@ from app.models import ServiceTicket, ServiceInventory
 from marshmallow import fields, validates_schema, ValidationError
 
 
-
 class ServiceInventoryInputSchema(ma.Schema):
     inventory_id = fields.Int(required=True)
     quantity = fields.Int(required=True)
+
 
 class ServiceInventoryOutputSchema(SQLAlchemyAutoSchema):
     class Meta:
@@ -21,6 +21,7 @@ class ServiceInventoryOutputSchema(SQLAlchemyAutoSchema):
         exclude = ("service_ticket",)
 
     inventory = fields.Nested(lambda: InventorySchema(only=("id", "name", "price")))
+
 
 class TicketCreateSchema(ma.Schema):
     """
@@ -50,11 +51,14 @@ class TicketCreateSchema(ma.Schema):
     @validates_schema
     def validate_inventory(self, data, **kwargs):
         inv = data.get("inventory", [])
+
         if not isinstance(inv, list):
             raise ValidationError("Inventory must be a list of Inventory objects")
+        
         for item in inv:
             if "inventory_id" not in item:
                 raise ValidationError("Each inventory entry requires an inventory_id")
+
 
 class TicketReturnSchema(ma.SQLAlchemySchema):
     class Meta:
@@ -70,18 +74,20 @@ class TicketReturnSchema(ma.SQLAlchemySchema):
     mechanics = fields.List(fields.Nested(MechanicSchema(only=("id","name"))))
     service_inventory = fields.List(fields.Nested(ServiceInventoryOutputSchema))
 
-# class ServiceTicketAssignMechanicSchema(ma.Schema):
-#     add_mechanics_ids = fields.List(fields.Int(), required=True)
 
-#     class Meta:
-#         fields = ('add_mechanics_ids',)
+class TicketAssignMechanicSchema(ma.Schema):
+    add_mechanics_ids = fields.List(fields.Int(), required=True)
+
+    class Meta:
+        fields = ('add_mechanics_ids',)
 
 
-# class ServiceTicketRemoveMechanicSchema(ma.Schema):
-#     remove_mechanics_ids = fields.List(fields.Int(), required=True)
+class TicketRemoveMechanicSchema(ma.Schema):
+    remove_mechanics_ids = fields.List(fields.Int(), required=True)
 
-#     class Meta:
-#         fields = ('remove_mechanics_ids',)
+    class Meta:
+        fields = ('remove_mechanics_ids',)
+
 
 # # Addition of Schema for Inventory Assignment to Service Tickets
 
@@ -91,21 +97,13 @@ class TicketReturnSchema(ma.SQLAlchemySchema):
 #     class Meta:
 #         fields = ('add_inventory_items',)
 
-# class InventoryQuantitySchema(ma.Schema):
-#     item_id = fields.Int(required=True)
-#     quantity = fields.Int(required=True)
-
-
 
 ticket_create_schema = TicketCreateSchema()
 ticket_return_schema = TicketReturnSchema()
 tickets_return_schema = TicketReturnSchema(many=True)
-tickets_return_schema = TicketReturnSchema(many=True) 
 
-ticket_create_schema = TicketCreateSchema()
+ticket_assign_mechanic_schema = TicketAssignMechanicSchema()
+ticket_remove_mechanic_schema = TicketRemoveMechanicSchema()
 
-
-# service_ticket_assign_mechanic_schema = ServiceTicketAssignMechanicSchema()
-# service_ticket_remove_mechanic_schema = ServiceTicketRemoveMechanicSchema()
 # service_ticket_assign_inventory_schema = ServiceTicketAssignInventorySchema()
 
