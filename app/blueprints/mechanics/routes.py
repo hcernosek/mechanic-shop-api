@@ -95,7 +95,7 @@ def delete_mechanic(mechanic_id):
 
 
 # ======================================================================
-# 
+# TOP MECHANICS BY SERVICE TICKETS [GET]
 # ======================================================================
 
 @mechanics_bp.route("/top_mechanics", methods=['GET'])

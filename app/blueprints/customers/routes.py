@@ -64,12 +64,22 @@ def create_customer():
 # GET ALL CUSTOMERS [GET]
 # ======================================================================
 
+# Route uses pagination to return customers with page and per_page limits
 @customers_bp.route("/", methods=['GET'])
 def get_customers():
-    query = select(Customer)
-    customers = db.session.execute(query).scalars().all()
+    try:
+        page = int(request.args.get('page'))
+        per_page = int(request.args.get('per_page'))
 
-    return customers_schema.jsonify(customers)
+        query = select(Customer)
+        customers = db.paginate(query, page=page, per_page=per_page)
+        return customers_schema.jsonify(customers), 200
+    
+    # if page or per_page are not provided return without pagination
+    except:
+        query = select(Customer)
+        customers = db.session.execute(query).scalars().all()
+        return customers_schema.jsonify(customers), 200
 
 
 # ======================================================================
