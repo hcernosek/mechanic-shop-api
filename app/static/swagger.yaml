@@ -1,0 +1,296 @@
+
+openapi: 3.0.0
+info:
+  title: Mechanic Shop API
+  version: 1.0.0
+  description: API for managing customers, mechanics, inventory and service tickets.
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /mechanics:
+    get:
+      summary: List mechanics
+      responses:
+        '200':
+          description: A list of mechanics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mechanic'
+    post:
+      summary: Create a mechanic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MechanicCreate'
+      responses:
+        '201':
+          description: Mechanic created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mechanic'
+
+  /mechanics/{mechanic_id}:
+    parameters:
+      - name: mechanic_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Get a mechanic
+      responses:
+        '200':
+          description: Mechanic found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mechanic'
+        '404':
+          description: Not found
+    put:
+      summary: Update a mechanic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MechanicCreate'
+      responses:
+        '200':
+          description: Mechanic updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mechanic'
+    delete:
+      summary: Delete a mechanic
+      responses:
+        '200':
+          description: Deleted
+
+  /inventory:
+    get:
+      summary: List inventory items
+      responses:
+        '200':
+          description: A list of inventory items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Inventory'
+    post:
+      summary: Create an inventory item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryCreate'
+      responses:
+        '201':
+          description: Inventory created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inventory'
+
+  /inventory/{inventory_id}:
+    parameters:
+      - name: inventory_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Get an inventory item
+      responses:
+        '200':
+          description: Inventory item found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inventory'
+        '404':
+          description: Not found
+    put:
+      summary: Update inventory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryCreate'
+      responses:
+        '200':
+          description: Inventory updated
+    delete:
+      summary: Delete an inventory item
+      responses:
+        '200':
+          description: Deleted
+
+  /service_tickets:
+    get:
+      summary: List service tickets
+      responses:
+        '200':
+          description: A list of service tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceTicket'
+    post:
+      summary: Create a service ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceTicketCreate'
+      responses:
+        '201':
+          description: Service ticket created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTicket'
+
+  /service_tickets/{ticket_id}:
+    parameters:
+      - name: ticket_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Get a service ticket
+      responses:
+        '200':
+          description: Service ticket found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTicket'
+        '404':
+          description: Not found
+    delete:
+      summary: Delete a service ticket
+      responses:
+        '200':
+          description: Deleted
+
+components:
+  schemas:
+    Mechanic:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        salary:
+          type: number
+      required: [id, name, email]
+
+    MechanicCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        salary:
+          type: number
+      required: [name, email, phone, salary]
+
+    Inventory:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+      required: [id, name, price]
+
+    InventoryCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+      required: [name, price]
+
+    ServiceInventoryItem:
+      type: object
+      properties:
+        inventory_id:
+          type: integer
+        quantity:
+          type: integer
+
+    ServiceTicket:
+      type: object
+      properties:
+        id:
+          type: integer
+        vin:
+          type: string
+        service_date:
+          type: string
+          format: date
+        service_desc:
+          type: string
+        customer_id:
+          type: integer
+        mechanics:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mechanic'
+        service_inventory:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceInventoryItem'
+
+    ServiceTicketCreate:
+      type: object
+      properties:
+        vin:
+          type: string
+        service_date:
+          type: string
+          format: date
+        service_desc:
+          type: string
+        customer_id:
+          type: integer
+        mechanic_ids:
+          type: array
+          items:
+            type: integer
+        inventory:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceInventoryItem'
+      required: [vin, service_date, service_desc, customer_id]
+

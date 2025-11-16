@@ -83,7 +83,7 @@ class Inventory(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(db.String(255), unique=True, nullable=False)
     price: Mapped[float] = mapped_column(db.Float, nullable=False)
-   
+
     service_inventory: Mapped[List["ServiceInventory"]] = db.relationship(back_populates="inventory")
 
 
