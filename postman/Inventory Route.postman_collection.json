@@ -1,28 +1,28 @@
 {
 	"info": {
-		"_postman_id": "87b9c89d-3281-4b48-b145-50f371b76a68",
-		"name": "Mechanic Route",
-		"description": "# Mechanic Route Info\n\n## POST\n\n## PATCH\n\n## GET\n\n## DELETE",
+		"_postman_id": "41e74d62-99c9-4b42-a129-62b36aa622ba",
+		"name": "Inventory Route",
+		"description": "# Customer Route Info\n\n## POST\n\n## PATCH\n\n## GET\n\n## DELETE",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "48510031",
-		"_collection_link": "https://getpostman-arbitrary204-4933287.postman.co/workspace/MechanicAPI~bd3edc21-6fd1-40be-81e2-8532c947b6ee/collection/48510031-87b9c89d-3281-4b48-b145-50f371b76a68?action=share&source=collection_link&creator=48510031"
+		"_collection_link": "https://getpostman-arbitrary204-4933287.postman.co/workspace/MechanicAPI~bd3edc21-6fd1-40be-81e2-8532c947b6ee/collection/48510031-41e74d62-99c9-4b42-a129-62b36aa622ba?action=share&source=collection_link&creator=48510031"
 	},
 	"item": [
 		{
 			"name": "GET",
 			"item": [
 				{
-					"name": "Get All Mechanics",
+					"name": "Get All Inventory",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{root_path}}/{{mech_path}}/",
+							"raw": "{{root_path}}/{{inv_path}}/",
 							"host": [
 								"{{root_path}}"
 							],
 							"path": [
-								"{{mech_path}}",
+								"{{inv_path}}",
 								""
 							]
 						}
@@ -30,41 +30,23 @@
 					"response": []
 				},
 				{
-					"name": "Get Top Mechanics",
+					"name": "Get Inventory Item",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{root_path}}/{{mech_path}}/top_mechanics",
+							"raw": "{{root_path}}/{{inv_path}}/:inventory",
 							"host": [
 								"{{root_path}}"
 							],
 							"path": [
-								"{{mech_path}}",
-								"top_mechanics"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get a Mechanic",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{root_path}}/{{mech_path}}/:mechanic",
-							"host": [
-								"{{root_path}}"
-							],
-							"path": [
-								"{{mech_path}}",
-								":mechanic"
+								"{{inv_path}}",
+								":inventory"
 							],
 							"variable": [
 								{
-									"key": "mechanic",
-									"value": "1"
+									"key": "inventory",
+									"value": "7"
 								}
 							]
 						}
@@ -77,13 +59,13 @@
 			"name": "POST",
 			"item": [
 				{
-					"name": "New Mechanic",
+					"name": "New Inventory",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"phone\": \"{{$randomPhoneNumber}}\",\n    \"salary\": {{salary}}\n}\n",
+							"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"price\": {{$randomPrice}}\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -91,12 +73,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{root_path}}/{{mech_path}}/",
+							"raw": "{{root_path}}/{{inv_path}}/",
 							"host": [
 								"{{root_path}}"
 							],
 							"path": [
-								"{{mech_path}}",
+								"{{inv_path}}",
 								""
 							]
 						}
@@ -109,13 +91,13 @@
 			"name": "PUT",
 			"item": [
 				{
-					"name": "Edit Mechanic",
+					"name": "Edit Inventory",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"phone\": \"{{$randomPhoneNumber}}\",\n    \"salary\": {{salary}}\n}",
+							"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"price\": {{$randomPrice}}\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -123,18 +105,18 @@
 							}
 						},
 						"url": {
-							"raw": "{{root_path}}/{{mech_path}}/:mechanic",
+							"raw": "{{root_path}}/{{inv_path}}/:inventory",
 							"host": [
 								"{{root_path}}"
 							],
 							"path": [
-								"{{mech_path}}",
-								":mechanic"
+								"{{inv_path}}",
+								":inventory"
 							],
 							"variable": [
 								{
-									"key": "mechanic",
-									"value": "5"
+									"key": "inventory",
+									"value": "1"
 								}
 							]
 						}
@@ -147,7 +129,7 @@
 			"name": "DELETE",
 			"item": [
 				{
-					"name": "Delete Mechanic",
+					"name": "Delete Inventory",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -162,18 +144,18 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{root_path}}/{{mech_path}}/:mechanic",
+							"raw": "{{root_path}}/{{inv_path}}/:inventory",
 							"host": [
 								"{{root_path}}"
 							],
 							"path": [
-								"{{mech_path}}",
-								":mechanic"
+								"{{inv_path}}",
+								":inventory"
 							],
 							"variable": [
 								{
-									"key": "mechanic",
-									"value": "6"
+									"key": "inventory",
+									"value": "22"
 								}
 							]
 						}
@@ -205,12 +187,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "salary",
-			"value": ""
 		}
 	]
 }

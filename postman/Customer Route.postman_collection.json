@@ -17,13 +17,23 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{root_path}}/{{cst_path}}/",
+							"raw": "{{root_path}}/{{cst_path}}/?page=1&per_page=3",
 							"host": [
 								"{{root_path}}"
 							],
 							"path": [
 								"{{cst_path}}",
 								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "3"
+								}
 							]
 						}
 					},
@@ -92,7 +102,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"Andres46@yahoo.com\",\n    \"password\": \"Rc4tXsJ6rdzZFdX\"\n}",
+							"raw": "{\n    \"email\": \"Torrance_Rolfson1@gmail.com\",\n    \"password\": \"Hq_IWcoyQgLmPiX\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -168,16 +178,22 @@
 								}
 							]
 						},
-						"method": "DELETE",
+						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{root_path}}/{{cst_path}}/",
+							"raw": "{{root_path}}/{{cst_path}}/:customer",
 							"host": [
 								"{{root_path}}"
 							],
 							"path": [
 								"{{cst_path}}",
-								""
+								":customer"
+							],
+							"variable": [
+								{
+									"key": "customer",
+									"value": "2"
+								}
 							]
 						}
 					},
