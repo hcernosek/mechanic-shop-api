@@ -4,6 +4,7 @@ from marshmallow import ValidationError
 from app.blueprints.customers.schemas import customer_schema, customers_schema, login_schema
 from app.models import Customer, db
 from app.blueprints.customers import customers_bp
+from app.blueprints.service_tickets.schemas import tickets_return_schema
 from app.utils.util import encode_token, token_required
 
 # ======================================================================
@@ -37,6 +38,28 @@ def login():
     
     else:
         return jsonify({"message": "Invalid email or password."}), 401
+
+
+# ======================================================================
+# GET CUSTOMER TICKETS [GET]
+# ======================================================================
+
+@customers_bp.route("/my-tickets", methods=['GET'])
+@token_required
+def get_my_tickets(customer_id):
+    
+    customer = db.session.get(Customer, customer_id)
+
+    if not customer:
+        return jsonify({"error": "Customer not found."}), 404
+    
+    try:
+        tickets = customer.service_tickets
+        return tickets_return_schema.jsonify(tickets), 200
+    
+    except Exception as e:
+        return jsonify({"error": "Could not retrieve tickets."}), 500
+
 
 # ======================================================================
 # CREATE A NEW CUSTOMER [POST]

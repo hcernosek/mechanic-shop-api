@@ -63,8 +63,6 @@ def create_service_ticket():
         "service_ticket": ticket_return_schema.dump(new_ticket)
     }), 201
 
-# How is the mapping of inventory_items and mechanic_ids different (since one is handled as a association table and the other is a object)?
-
 
 # ======================================================================
 # GET ALL SERVICE TICKET [GET]
@@ -95,17 +93,17 @@ def get_service_ticket(ticket_id):
 # DELETE A SERVICE TICKET [DELETE]
 # ======================================================================
 
-# @service_tickets_bp.route("/<int:ticket_id>", methods=['DELETE'])
-# def delete_service_ticket(ticket_id):
-#     query = select(ServiceTicket).where(ServiceTicket.id == ticket_id)
-#     service_ticket = db.session.execute(query).scalar_one_or_none()
+@service_tickets_bp.route("/<int:ticket_id>", methods=['DELETE'])
+def delete_service_ticket(ticket_id):
+    query = select(ServiceTicket).where(ServiceTicket.id == ticket_id)
+    service_ticket = db.session.execute(query).scalar_one_or_none()
 
-#     if not service_ticket:
-#         return jsonify({"error": "Service Ticket not found."}), 404
+    if not service_ticket:
+        return jsonify({"error": "Service Ticket not found."}), 404
     
-#     db.session.delete(service_ticket)
-#     db.session.commit()
-#     return jsonify({"message": f'Service Ticket id: {ticket_id}, successfully deleted.'}), 200
+    db.session.delete(service_ticket)
+    db.session.commit()
+    return jsonify({"message": f'Service Ticket id: {ticket_id}, successfully deleted.'}), 200
 
 
 # ======================================================================
