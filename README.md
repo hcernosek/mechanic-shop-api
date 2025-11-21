@@ -2,7 +2,7 @@
 
 ## Project Routes
 
-### Customer Route:
+### Customers:
 
 - Basic CRUD Routes:
     - `POST /customers/` -> create customers
