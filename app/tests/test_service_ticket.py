@@ -1,5 +1,5 @@
 from app.models import ServiceTicket, db
-from app.tests.base_test import APITestCase
+from app.tests.test_base import APITestCase
 
 
 class TestServiceTicket(APITestCase):

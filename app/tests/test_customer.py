@@ -1,7 +1,7 @@
 from datetime import date
 
 from app.models import Customer, ServiceTicket, db
-from app.tests.base_test import APITestCase
+from app.tests.test_base import APITestCase
 from app.utils.util import encode_token
 
 
