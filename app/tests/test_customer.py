@@ -40,7 +40,6 @@ class TestCustomer(APITestCase):
             ]
         )
         db.session.commit()
-        self.token = encode_token(1)  # token helper used in deletion tests
 
     def _auth_headers(self, customer_id=1):
         # helper to build Authorization header with a JWT for a given customer id
