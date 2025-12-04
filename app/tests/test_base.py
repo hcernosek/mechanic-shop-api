@@ -40,8 +40,8 @@ class APITestCase(unittest.TestCase):
             password="secret",
             phone="555-000-0000",
         )
-        db.session.add(customer)  # stage record
-        db.session.commit()  # persist and assign primary key
+        db.session.add(customer) 
+        db.session.commit()
         return customer
 
     def create_mechanic(
@@ -53,7 +53,7 @@ class APITestCase(unittest.TestCase):
     ):
         mechanic = Mechanic(name=name, email=email, phone=phone, salary=salary)
         db.session.add(mechanic)
-        db.session.commit()  # commit so id is generated
+        db.session.commit()
         return mechanic
 
     def create_inventory(self, name="Brake Pads", price=49.99):
@@ -95,5 +95,5 @@ class APITestCase(unittest.TestCase):
                 )
                 db.session.add(service_inventory)
 
-        db.session.commit()  # final commit to persist all changes
+        db.session.commit()  # final commit
         return ticket

@@ -4,7 +4,7 @@ from marshmallow import ValidationError
 from app.blueprints.inventory.schemas import inventory_schema, inventory_many_schema
 from app.models import Inventory, db
 from app.blueprints.inventory import inventory_bp
- 
+
 # ======================================================================
 # CREATE INVENTORY ITEM [POST]
 # ======================================================================

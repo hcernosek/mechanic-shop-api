@@ -121,7 +121,7 @@ class TestServiceTicket(APITestCase):
         ticket = self.create_service_ticket(mechanics=[mechanic_one, mechanic_two])
         payload = {"remove_mechanics_ids": [mechanic_one.id]}
 
-        # PUT should remove the specified mechanic from the ticket
+        # should remove the specified mechanic from the ticket
         response = self.client.put(
             f"/service_tickets/{ticket.id}/remove_mechanics", json=payload
         )

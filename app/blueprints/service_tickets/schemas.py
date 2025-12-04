@@ -67,6 +67,7 @@ class TicketReturnSchema(ma.SQLAlchemySchema):
         load_instance = True
         include_relationships = True
 
+    id = fields.Int()
     vin = fields.Str()
     service_date = fields.Date()
     service_desc = fields.Str()
@@ -89,14 +90,6 @@ class TicketRemoveMechanicSchema(ma.Schema):
         fields = ('remove_mechanics_ids',)
 
 
-# # Addition of Schema for Inventory Assignment to Service Tickets
-
-# class ServiceTicketAssignInventorySchema(ma.Schema):
-#     add_inventory_items = fields.Nested("InventoryQuantitySchema", many=True)
-
-#     class Meta:
-#         fields = ('add_inventory_items',)
-
 
 ticket_create_schema = TicketCreateSchema()
 ticket_return_schema = TicketReturnSchema()
@@ -104,6 +97,4 @@ tickets_return_schema = TicketReturnSchema(many=True)
 
 ticket_assign_mechanic_schema = TicketAssignMechanicSchema()
 ticket_remove_mechanic_schema = TicketRemoveMechanicSchema()
-
-# service_ticket_assign_inventory_schema = ServiceTicketAssignInventorySchema()
 

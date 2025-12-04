@@ -101,7 +101,7 @@ class TestCustomer(APITestCase):
 
 
     def test_invalid_login(self):
-        # bad credentials should be unauthorized
+        # bad credentials should fail authentication with 401
         credentials = {
             "email": "bad_email@email.com",
             "password": "bad_pw"
@@ -159,7 +159,7 @@ class TestCustomer(APITestCase):
 
 
     def test_delete_customer(self):
-        # delete with valid auth removes customer
+        # deleting with valid authentication removes customer
         response = self.client.delete('/customers/', headers=self._auth_headers(1))
         self.assertEqual(response.status_code, 200)
         follow_up = self.client.get('/customers/1')
@@ -167,14 +167,14 @@ class TestCustomer(APITestCase):
 
 
     def test_delete_customer_not_found(self):
-        # deleting with a token for missing customer should 404
+        # deleting with a token for missing customer should return 404 status
         response = self.client.delete('/customers/', headers=self._auth_headers(999))
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json['error'], 'Customer not found.')
 
 
     def test_get_my_tickets(self):
-        # create a ticket for customer 1 and ensure it is returned with auth
+        # create a ticket for customer 1 and ensure it is returned with authentication
         ticket = ServiceTicket(
             vin="1HGCM82633A004352",
             service_date=date.today(),
@@ -191,7 +191,7 @@ class TestCustomer(APITestCase):
 
 
     def test_get_my_tickets_requires_auth(self):
-        # missing Authorization header should block access
+        # missing authentication header should block access
         response = self.client.get('/customers/my-tickets')
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json['message'], 'Login to access this resource')

@@ -13,7 +13,7 @@ class TestInventory(APITestCase):
         self.assertEqual(response.json["price"], 12.99)
 
     def test_create_inventory_duplicate_name_returns_400(self):
-        self.create_inventory(name="Spark Plug")  # seed duplicate name
+        self.create_inventory(name="Spark Plug")  # create duplicate name
         payload = {"name": "Spark Plug", "price": 5.50}
 
         # Duplicate name should return 400 with error message
