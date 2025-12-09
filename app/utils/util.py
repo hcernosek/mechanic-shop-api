@@ -4,8 +4,9 @@ from jose import jwt
 import jose
 from functools import wraps
 from flask import request, jsonify
+import os
 
-SECRET_KEY = "secret-key"
+SECRET_KEY = os.environ.get('SECRET_KEY') or "secret-key"
 
 def encode_token(customer_id):  # using unique pieces of info to make our tokens user specific
     payload = {
