@@ -1,4 +1,4 @@
-from pkg_resources import Requirement
+#from pkg_resources import Requirement
 from app import create_app
 from app.models import db
 
