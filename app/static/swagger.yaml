@@ -3,10 +3,10 @@ info:
   title: Mechanic Shop API
   version: 1.0.0
   description: Project API for managing customers, mechanics, inventory, and service tickets of fictional mechanic shop.
-host: "127.0.0.1:5000"
+host: "mechanic-shop-api-o2yt.onrender.com"
 basePath: "/"
 schemes:
-  - http
+  - https
 consumes:
   - application/json
 produces:
